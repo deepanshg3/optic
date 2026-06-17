@@ -2,10 +2,10 @@ import json
 import re
 from typing import TypedDict, List
 from langgraph.graph import StateGraph, END
-from backend.logger import setup_logger
-from backend.llm_client import OpticLLM
-from backend.context import ContextManager
-from backend.prompts import DISPATCHER_PROMPT, RESOLVER_PROMPT
+from backend.system.logger import setup_logger
+from backend.ai.llm_api import OpticLLM
+from backend.system.workspace_mapper import ContextManager
+from backend.ai.prompts import DISPATCHER_PROMPT, RESOLVER_PROMPT
 
 logger = setup_logger("Analyzer")
 

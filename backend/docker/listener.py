@@ -1,7 +1,7 @@
 import docker
 import os
-from backend.logger import setup_logger
-from backend.analyzer import CrashAnalyzer
+from backend.system.logger import setup_logger
+from backend.ai.agent import CrashAnalyzer
 
 # Create a specific logger for the Watcher module
 logger = setup_logger("Watcher")

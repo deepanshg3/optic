@@ -1,10 +1,9 @@
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from backend.watcher import DockerWatcher
-from backend.logger import setup_logger
+from backend.docker.listener import DockerWatcher
+from backend.system.logger import setup_logger
 
 logger = setup_logger("Main")
 
