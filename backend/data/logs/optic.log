@@ -13,3 +13,134 @@
 2026-06-17 21:42:57,474 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
 2026-06-17 21:42:57,474 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
 2026-06-17 21:42:57,474 - INFO - [Watcher] - Listening for container crashes...
+2026-06-17 22:32:35,412 - INFO - [Main] - 🚀 Booting Optic Core...
+2026-06-17 22:32:35,412 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-17 22:32:35,470 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-17 22:32:35,470 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-17 22:32:35,470 - INFO - [Watcher] - Listening for container crashes...
+2026-06-17 22:32:58,485 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 1)
+2026-06-17 22:32:58,488 - INFO - [Watcher] - 🧠 Handing off to LangGraph Analyzer...
+2026-06-17 22:32:58,488 - INFO - [Analyzer] - 🚀 Starting Optic Analysis Pipeline...
+2026-06-17 22:32:58,491 - INFO - [Analyzer] - 🧠 Step 1: Dispatcher analyzing logs to find target files...
+2026-06-17 22:32:59,546 - INFO - [Analyzer] - 🎯 Dispatcher requested: ['package.json', 'Dockerfile']
+2026-06-17 22:32:59,547 - INFO - [Analyzer] - 📂 Step 2: Context Manager fetching requested files...
+2026-06-17 22:32:59,556 - INFO - [Analyzer] - 🧠 Step 3: Resolver drafting the final fix...
+2026-06-17 22:33:01,335 - INFO - [Watcher] - 
+============================================================
+✅ AI DIAGNOSIS & FIX
+============================================================
+{
+  "analysis": "The crash occurs because the Docker container is attempting to execute a non-existent module. The error 'Cannot find module /app/THIS-IS-A-BROKEN-COMMAND' indicates that the CMD instruction in the Dockerfile is being overridden or misinterpreted, or that the environment is attempting to execute a file that does not exist. However, looking at the provided Dockerfile, the CMD is set to [\"npm\", \"start\"]. The error log suggests that the container entrypoint or a shell override is passing an invalid argument to Node.js. \n\nGiven the provided files, the Dockerfile is syntactically correct for a standard React application. The error likely stems from an external orchestration layer (like Kubernetes or a CI/CD pipeline) overriding the CMD with 'THIS-IS-A-BROKEN-COMMAND'. To ensure the container is robust and ignores external command overrides that might be malformed, the CMD should be explicitly defined using the shell form or ensured to be the intended entrypoint.",
+  "patches": [
+    {
+      "file_path": "Dockerfile",
+      "search_block": "CMD [\"npm\", \"start\"]",
+      "replace_block": "CMD [\"npm\", \"run\", \"start\"]"
+    }
+  ]
+}
+============================================================
+
+2026-06-17 22:33:34,353 - INFO - [Main] - 🛑 Optic shutting down gracefully.
+2026-06-18 16:25:16,861 - INFO - [Main] - 🚀 Booting Optic Core...
+2026-06-18 16:25:16,861 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-18 16:25:16,938 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-18 16:25:16,938 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-18 16:25:16,938 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-18 16:25:16,938 - INFO - [Watcher] - Listening for container crashes...
+2026-06-18 16:25:22,754 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 1)
+2026-06-18 16:25:22,756 - INFO - [Watcher] - 🧠 Handing off to LangGraph Analyzer...
+2026-06-18 16:25:22,756 - INFO - [Analyzer] - 🚀 Starting Optic Analysis Pipeline...
+2026-06-18 16:25:22,760 - INFO - [Analyzer] - 🧠 Step 1: Dispatcher analyzing logs to find target files...
+2026-06-18 16:25:24,203 - INFO - [Analyzer] - 🎯 Dispatcher requested: ['package.json', 'Dockerfile']
+2026-06-18 16:25:24,204 - INFO - [Analyzer] - 📂 Step 2: Context Manager fetching requested files...
+2026-06-18 16:25:24,213 - INFO - [Analyzer] - 🧠 Step 3: Resolver drafting the final fix...
+2026-06-18 16:25:25,929 - INFO - [Analyzer] - 🛠️ Step 4: Patcher attempting to apply code fixes...
+2026-06-18 16:25:25,929 - INFO - [Patcher] - ✅ Successfully patched: Dockerfile
+2026-06-18 16:25:25,930 - INFO - [Analyzer] - 🔌 Step 5: Routing to Container Restarter for deployment...
+2026-06-18 16:25:25,936 - INFO - [Restarter] - 🔄 Initiating Cold Rebuild for: [tictactoe-casualty]
+2026-06-18 16:25:25,937 - INFO - [Restarter] - 🗑️ Removing corrupted container...
+2026-06-18 16:25:25,969 - INFO - [Restarter] - 🏗️ Rebuilding image 'tic-tac-toe-healthy'... (This may take a minute)
+2026-06-18 16:25:36,071 - ERROR - [Restarter] - ❌ Fatal error during rebuild: docker-credential-desktop not installed or not available in PATH
+2026-06-18 16:25:36,072 - INFO - [Watcher] - 
+============================================================
+✅ AI DIAGNOSIS & FIX
+============================================================
+The crash occurs because the Docker container is attempting to execute a non-existent module. The error 'Cannot find module /app/THIS-IS-A-BROKEN-COMMAND' indicates that the CMD instruction in the Dockerfile is being overridden or misinterpreted by the container runtime, or that an environment variable or shell configuration is injecting an invalid command. However, looking at the provided Dockerfile, the CMD is set to ["npm", "start"]. The error suggests that the container is trying to run a file named 'THIS-IS-A-BROKEN-COMMAND' as a Node.js entry point. This is often caused by an incorrect ENTRYPOINT or CMD override in the docker-compose.yml or the docker run command that was not provided, but the fix is to ensure the Dockerfile explicitly defines the entry point to bypass shell interpretation issues.
+
+🔹 Patch Successful: True
+🔹 Container Revived: False
+============================================================
+
+2026-06-18 16:29:03,540 - INFO - [Main] - 🛑 Optic shutting down gracefully.
+2026-06-18 16:30:17,362 - INFO - [Main] - 🚀 Booting Optic Core...
+2026-06-18 16:30:17,362 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-18 16:30:17,427 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-18 16:30:17,427 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-18 16:30:17,427 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-18 16:30:17,427 - INFO - [Watcher] - Listening for container crashes...
+2026-06-18 16:30:20,897 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 1)
+2026-06-18 16:30:20,899 - INFO - [Watcher] - 🧠 Handing off to LangGraph Analyzer...
+2026-06-18 16:30:20,899 - INFO - [Analyzer] - 🚀 Starting Optic Analysis Pipeline...
+2026-06-18 16:30:20,903 - INFO - [Analyzer] - 🧠 Step 1: Dispatcher analyzing logs to find target files...
+2026-06-18 16:30:21,624 - INFO - [Analyzer] - 🎯 Dispatcher requested: ['package.json', 'Dockerfile']
+2026-06-18 16:30:21,624 - INFO - [Analyzer] - 📂 Step 2: Context Manager fetching requested files...
+2026-06-18 16:30:21,625 - INFO - [Analyzer] - 🧠 Step 3: Resolver drafting the final fix...
+2026-06-18 16:30:23,061 - INFO - [Analyzer] - 🛠️ Step 4: Patcher attempting to apply code fixes...
+2026-06-18 16:30:23,061 - INFO - [Patcher] - ✅ Successfully patched: Dockerfile
+2026-06-18 16:30:23,062 - INFO - [Analyzer] - 🔌 Step 5: Routing to Container Restarter for deployment...
+2026-06-18 16:30:23,068 - INFO - [Restarter] - 🔄 Initiating Cold Rebuild for: [tictactoe-casualty]
+2026-06-18 16:30:23,070 - INFO - [Restarter] - 🗑️ Removing corrupted container...
+2026-06-18 16:30:23,102 - INFO - [Restarter] - 🏗️ Rebuilding image 'tic-tac-toe-healthy'... (This may take a minute)
+2026-06-18 16:32:23,244 - INFO - [Restarter] - 🚀 Launching patched container...
+2026-06-18 16:32:23,518 - INFO - [Restarter] - ✅ [tictactoe-casualty] successfully rebuilt and running!
+2026-06-18 16:32:23,518 - INFO - [Watcher] - 
+============================================================
+✅ AI DIAGNOSIS & FIX
+============================================================
+The crash occurs because the Docker container is attempting to execute 'npm start' as an entrypoint, but the environment or the way the command is being invoked is causing Node.js to interpret the command string as a file path to be executed directly (e.g., 'node /app/THIS-IS-A-BROKEN-COMMAND'). This indicates that the Docker container's entrypoint or command override is misconfigured, likely due to an external environment variable or a malformed Docker run command that is injecting an invalid argument into the Node process execution chain.
+
+🔹 Patch Successful: True
+🔹 Container Revived: True
+============================================================
+
+2026-06-18 16:32:23,520 - ERROR - [Watcher] - ⚠️ Container 72dac80bab5f deleted before Optic could read the logs.
+2026-06-18 16:40:09,872 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 137)
+2026-06-18 16:40:09,874 - CRITICAL - [Main] - ❌ Fatal Error: 409 Client Error for http+docker://localhost/v1.52/containers/cbdf45330219bd5b02dad3b44514a69bc7d99b09d46cab774035168f845d859f/logs?stderr=1&stdout=1&timestamps=0&follow=0&tail=30: Conflict ("can not get logs from container which is dead or marked for removal")
+2026-06-18 16:58:39,689 - INFO - [Main] - 🚀 Booting Optic Core...
+2026-06-18 16:58:39,689 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-18 16:58:39,749 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-18 16:58:39,750 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-18 16:58:39,750 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-18 16:58:39,750 - INFO - [Watcher] - Listening for container crashes...
+2026-06-18 16:58:41,404 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 1)
+2026-06-18 16:58:41,406 - INFO - [Watcher] - 🧠 Handing off to LangGraph Analyzer...
+2026-06-18 16:58:41,406 - INFO - [Analyzer] - 🚀 Starting Optic Analysis Pipeline...
+2026-06-18 16:58:41,410 - INFO - [Analyzer] - 🧠 Step 1: Dispatcher analyzing logs to find target files...
+2026-06-18 16:58:42,218 - INFO - [Analyzer] - 🎯 Dispatcher requested: ['package.json', 'Dockerfile']
+2026-06-18 16:58:42,219 - INFO - [Analyzer] - 📂 Step 2: Context Manager fetching requested files...
+2026-06-18 16:58:42,219 - INFO - [Analyzer] - 🧠 Step 3: Resolver drafting the final fix...
+2026-06-18 16:58:43,859 - INFO - [Analyzer] - 🛠️ Step 4: Patcher attempting to apply code fixes...
+2026-06-18 16:58:43,860 - INFO - [Patcher] - ✅ Successfully patched: Dockerfile
+2026-06-18 16:58:43,860 - INFO - [Analyzer] - 🔌 Step 5: Routing to Container Restarter for deployment...
+2026-06-18 16:58:43,866 - INFO - [Restarter] - 🔄 Initiating Cold Rebuild for: [tictactoe-casualty]
+2026-06-18 16:58:43,867 - INFO - [Restarter] - 🗑️ Removing corrupted container...
+2026-06-18 16:58:43,916 - INFO - [Restarter] - 🏗️ Rebuilding image 'tic-tac-toe-healthy'... (This may take a minute)
+2026-06-18 16:59:53,217 - INFO - [Restarter] - 🚀 Launching patched container...
+2026-06-18 16:59:53,480 - INFO - [Restarter] - ✅ [tictactoe-casualty] successfully rebuilt and running!
+2026-06-18 16:59:53,481 - INFO - [Watcher] - 
+============================================================
+✅ AI DIAGNOSIS & FIX
+============================================================
+The crash is caused by the Docker container attempting to execute a non-existent module. While the provided Dockerfile uses 'CMD ["npm", "start"]', the error log indicates that the Node.js runtime is being invoked with an invalid argument '/app/THIS-IS-A-BROKEN-COMMAND'. This suggests that the container's entrypoint or command override in the deployment environment is incorrectly pointing to a file path instead of the npm start script.
+
+To resolve this, the Dockerfile should explicitly define the ENTRYPOINT to ensure the container environment correctly handles the npm process, or the external orchestration configuration must be updated to remove the invalid command argument. Given the provided files, the Dockerfile is technically correct, but adding an explicit ENTRYPOINT can help prevent shell-related execution issues in certain container runtimes.
+
+🔹 Patch Successful: True
+🔹 Container Revived: True
+============================================================
+
+2026-06-18 17:00:39,312 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 137)
+2026-06-18 17:00:39,314 - WARNING - [Watcher] - ⚠️ Container 0758f430ede0 is being forcefully removed. Logs are unavailable.
+2026-06-18 17:22:30,220 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 137)
+2026-06-18 17:22:30,222 - WARNING - [Watcher] - ⚠️ Container d824e2129354 is being forcefully removed. Logs are unavailable.

@@ -3,14 +3,14 @@ import os
 from backend.system.logger import setup_logger
 from backend.ai.agent import CrashAnalyzer
 
-# Create a specific logger for the Watcher module
 logger = setup_logger("Watcher")
 
 class DockerWatcher:
-    # We now pass the project path in when we start the watcher
-    def __init__(self, project_path: str):
+    # 1. Accept the target_container argument
+    def __init__(self, project_path: str, target_container: str):
         self.project_path = os.path.expanduser(project_path)
-        self.analyzer = CrashAnalyzer()  # Boot up the LangGraph Brain
+        self.target_container = target_container
+        self.analyzer = CrashAnalyzer()
         
         try:
             self.client = docker.from_env()
@@ -21,6 +21,7 @@ class DockerWatcher:
 
     def listen(self):
         logger.info(f"Targeting Project Directory: {self.project_path}")
+        logger.info(f"Targeting Container Name: {self.target_container}")
         logger.info("Listening for container crashes...")
         
         for event in self.client.events(decode=True):
@@ -32,20 +33,23 @@ class DockerWatcher:
                 
                 try:
                     container = self.client.containers.get(container_id)
+                    
+                    # 🎯 2. THE TARGET LOCK FILTER
+                    if container.name != self.target_container:
+                        continue # Silently ignore crashes from other apps
+                        
                     exit_code = event.get('Actor', {}).get('Attributes', {}).get('exitCode')
                     
                     if str(exit_code) != "0":
                         logger.warning(f"🚨 CRASH DETECTED: [{container.name}] (Exit Code: {exit_code})")
                         
-                        # Bumped to 30 lines to grab the full stack trace
                         logs = container.logs(tail=30).decode('utf-8').strip()
-                        
                         logger.info("🧠 Handing off to LangGraph Analyzer...")
                         
-                        # --- THE AI TRIGGER ---
                         try:
                             analysis_result = self.analyzer.run_analysis(
                                 project_path=self.project_path, 
+                                container_name=container.name,
                                 crash_logs=logs
                             )
                             logger.info(f"\n{'='*60}\n✅ AI DIAGNOSIS & FIX\n{'='*60}\n{analysis_result}\n{'='*60}\n")
@@ -54,5 +58,13 @@ class DockerWatcher:
                         
                 except docker.errors.NotFound:
                     logger.error(f"⚠️ Container {container_id[:12]} deleted before Optic could read the logs.")
+                
+                # 🎯 ADD THIS NEW BLOCK HERE
+                except docker.errors.APIError as e:
+                    if e.response is not None and e.response.status_code == 409:
+                        logger.warning(f"⚠️ Container {container_id[:12]} is being forcefully removed. Logs are unavailable.")
+                    else:
+                        logger.error(f"❌ Docker API Error: {e}")
+                
                 except docker.errors.NullResource:
                     pass
