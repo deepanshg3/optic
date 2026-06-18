@@ -50,6 +50,7 @@ class ContainerRestarter:
             )
             
             logger.info(f"✅ [{container_name}] successfully rebuilt and running!")
+            logger.info(f"👁️ Optic is now actively monitoring the new [{container_name}] instance.")
             return True
 
         except docker.errors.BuildError as e:
