@@ -205,3 +205,48 @@ The container crash is caused by a typo in the 'start' script within 'package.js
 
 2026-06-18 18:40:56,503 - ERROR - [Watcher] - ⚠️ Container 7ce0e2875e5f deleted before Optic could read the logs.
 2026-06-18 18:43:07,652 - INFO - [Main] - 🛑 Optic shutting down gracefully.
+2026-06-18 23:34:38,921 - INFO - [Main] - 🚀 Booting Optic Core...
+2026-06-18 23:34:38,929 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-18 23:34:39,029 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-18 23:34:39,029 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-18 23:34:39,029 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-18 23:34:39,029 - INFO - [Watcher] - Listening for container crashes...
+2026-06-18 23:34:41,128 - INFO - [Main] - 🛑 Optic shutting down gracefully.
+2026-06-19 00:08:55,356 - INFO - [Main] - 🚀 Booting Optic Core...
+2026-06-19 00:08:55,357 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-19 00:08:55,416 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-19 00:08:55,417 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-19 00:08:55,417 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-19 00:08:55,417 - INFO - [Watcher] - Listening for container crashes...
+2026-06-19 00:08:57,326 - INFO - [Main] - 🛑 Optic shutting down gracefully.
+2026-06-19 16:40:08,304 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-19 16:40:08,325 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-19 16:40:08,325 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-19 16:40:08,389 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-19 16:40:08,389 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-19 16:40:08,389 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-19 16:40:08,389 - INFO - [Watcher] - Listening for container crashes...
+2026-06-19 16:41:16,345 - WARNING - [Watcher] - 🚨 CRASH DETECTED: [tictactoe-casualty] (Exit Code: 1)
+2026-06-19 16:41:16,347 - INFO - [Watcher] - 🧠 Handing off to LangGraph Analyzer...
+2026-06-19 16:41:16,347 - INFO - [Analyzer] - 🚀 Starting Optic Analysis Pipeline...
+2026-06-19 16:41:16,353 - INFO - [Analyzer] - 🧠 Step 1: Dispatcher analyzing logs to find target files...
+2026-06-19 16:41:17,265 - INFO - [Analyzer] - 🎯 Dispatcher requested: ['package.json', 'Dockerfile']
+2026-06-19 16:41:17,266 - INFO - [Analyzer] - 📂 Step 2: Context Manager fetching requested files...
+2026-06-19 16:41:17,275 - INFO - [Analyzer] - 🧠 Step 3: Resolver drafting the final fix...
+2026-06-19 16:41:18,568 - INFO - [Analyzer] - 🗄️ Step 4: Saving proposed fix to Database for human review...
+2026-06-19 16:41:18,585 - INFO - [Database] - 📝 Incident #1 logged for [tictactoe-casualty]. Status: PENDING.
+2026-06-19 16:41:18,585 - INFO - [Analyzer] - ✅ Analysis complete! Ticket #1 is waiting in the Dashboard.
+2026-06-19 16:41:18,585 - INFO - [Watcher] - 👁️ Watcher is free and actively listening to the Event Stream again... (Ticket #1 pending)
+2026-06-19 16:44:17,840 - INFO - [Main] - 👋 Optic Core gracefully shutting down.
+2026-06-19 16:54:39,311 - INFO - [Patcher] - ✅ Successfully patched: Dockerfile
+2026-06-19 16:54:39,319 - INFO - [Restarter] - 🔄 Initiating Cold Rebuild for: [tictactoe-casualty]
+2026-06-19 16:54:39,320 - ERROR - [Restarter] - ❌ Could not find container [tictactoe-casualty] to rebuild.
+2026-06-19 16:54:39,335 - INFO - [Database] - 🔄 Incident #1 status updated to: RESOLVED
+2026-06-19 17:10:11,875 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-19 17:10:11,875 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-19 17:10:11,876 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-19 17:10:11,935 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-19 17:10:11,935 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-19 17:10:11,935 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-19 17:10:11,935 - INFO - [Watcher] - Listening for container crashes...
+2026-06-19 17:10:14,581 - INFO - [Main] - 👋 Optic Core gracefully shutting down.

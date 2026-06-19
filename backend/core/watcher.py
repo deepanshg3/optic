@@ -1,12 +1,11 @@
 import docker
 import os
-from backend.system.logger import setup_logger
-from backend.ai.agent import CrashAnalyzer
+from backend.core.logger import setup_logger
+from backend.agents.graph import CrashAnalyzer
 
 logger = setup_logger("Watcher")
 
 class DockerWatcher:
-    # 1. Accept the target_container argument
     def __init__(self, project_path: str, target_container: str):
         self.project_path = os.path.expanduser(project_path)
         self.target_container = target_container
@@ -34,9 +33,8 @@ class DockerWatcher:
                 try:
                     container = self.client.containers.get(container_id)
                     
-                    # 🎯 2. THE TARGET LOCK FILTER
                     if container.name != self.target_container:
-                        continue # Silently ignore crashes from other apps
+                        continue 
                         
                     exit_code = event.get('Actor', {}).get('Attributes', {}).get('exitCode')
                     
@@ -47,19 +45,20 @@ class DockerWatcher:
                         logger.info("🧠 Handing off to LangGraph Analyzer...")
                         
                         try:
-                            analysis_result = self.analyzer.run_analysis(
+                            # 🎯 NEW: Grab the ticket ID and immediately free the watcher
+                            incident_id = self.analyzer.run_analysis(
                                 project_path=self.project_path, 
                                 container_name=container.name,
                                 crash_logs=logs
                             )
-                            logger.info(f"\n{'='*60}\n✅ AI DIAGNOSIS & FIX\n{'='*60}\n{analysis_result}\n{'='*60}\n")
+                            logger.info(f"👁️ Watcher is free and actively listening to the Event Stream again... (Ticket #{incident_id} pending)")
+                            
                         except Exception as ai_error:
                             logger.error(f"❌ AI Analysis Failed: {ai_error}")
                         
                 except docker.errors.NotFound:
                     logger.error(f"⚠️ Container {container_id[:12]} deleted before Optic could read the logs.")
                 
-                # 🎯 ADD THIS NEW BLOCK HERE
                 except docker.errors.APIError as e:
                     if e.response is not None and e.response.status_code == 409:
                         logger.warning(f"⚠️ Container {container_id[:12]} is being forcefully removed. Logs are unavailable.")

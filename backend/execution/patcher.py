@@ -1,5 +1,5 @@
 import os
-from backend.system.logger import setup_logger
+from backend.core.logger import setup_logger
 
 logger = setup_logger("Patcher")
 

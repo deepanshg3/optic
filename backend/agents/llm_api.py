@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import SystemMessage, HumanMessage
-from backend.system.logger import setup_logger
+from backend.core.logger import setup_logger
 
 # Load environment variables from the .env file
 load_dotenv()

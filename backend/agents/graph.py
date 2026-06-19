@@ -2,25 +2,22 @@ import json
 import re
 from typing import TypedDict, List
 from langgraph.graph import StateGraph, END
-from backend.system.logger import setup_logger
-from backend.ai.llm_api import OpticLLM
-from backend.system.workspace_mapper import ContextManager
-from backend.ai.prompts import DISPATCHER_PROMPT, RESOLVER_PROMPT
-from backend.system.patcher import CodePatcher
-from backend.docker.restarter import ContainerRestarter  # 🎯 IMPORT THE RESTARTER
+from backend.core.logger import setup_logger
+from backend.agents.llm_api import OpticLLM
+from backend.core.workspace_mapper import ContextManager
+from backend.agents.prompts import DISPATCHER_PROMPT, RESOLVER_PROMPT
+from backend.database.db_manager import create_incident # 🎯 NEW DB IMPORT
 
 logger = setup_logger("Analyzer")
 
 class GraphState(TypedDict):
     project_path: str
-    container_name: str  # Kept in memory to target the rebuild
+    container_name: str
     crash_logs: str
     directory_tree: str
     target_files: List[str]
     file_contents: str
-    final_analysis: str
-    patch_successful: bool
-    restart_successful: bool  # Tracking recovery verification
+    final_analysis: str # Holds the AI's JSON output
 
 class CrashAnalyzer:
     def __init__(self):
@@ -28,20 +25,16 @@ class CrashAnalyzer:
         
         workflow = StateGraph(GraphState)
         
-        # Define all 5 nodes of the operational cycle
+        # 🎯 We only need 3 nodes now! The AI just thinks, it doesn't execute.
         workflow.add_node("dispatch", self.node_dispatch)
         workflow.add_node("fetch_files", self.node_fetch_files)
         workflow.add_node("resolve", self.node_resolve)
-        workflow.add_node("patch_code", self.node_patch_code)
-        workflow.add_node("restart_container", self.node_restart_container)  # 🎯 ADD NODE
         
         # Execution path
         workflow.set_entry_point("dispatch")
         workflow.add_edge("dispatch", "fetch_files")
         workflow.add_edge("fetch_files", "resolve")
-        workflow.add_edge("resolve", "patch_code")
-        workflow.add_edge("patch_code", "restart_container")  # Route patch to restart
-        workflow.add_edge("restart_container", END)
+        workflow.add_edge("resolve", END) # 🎯 Graph stops here!
         
         self.app = workflow.compile()
 
@@ -78,36 +71,7 @@ class CrashAnalyzer:
         clean_json = re.sub(r"```json\n|\n```", "", raw_answer.strip())
         return {"final_analysis": clean_json}
 
-    def node_patch_code(self, state: GraphState) -> GraphState:
-        logger.info("🛠️ Step 4: Patcher attempting to apply code fixes...")
-        try:
-            resolution_data = json.loads(state["final_analysis"])
-            patches = resolution_data.get("patches", [])
-            if not patches:
-                logger.warning("No patches requested by the AI.")
-                return {"patch_successful": False}
-            patcher = CodePatcher(state["project_path"])
-            success = patcher.apply_patches(patches)
-            return {"patch_successful": success}
-        except json.JSONDecodeError:
-            logger.error(f"Failed to parse Resolver JSON output.")
-            return {"patch_successful": False}
-
-    def node_restart_container(self, state: GraphState) -> GraphState:
-        """🎯 Step 5: Execute cold rebuild if patches were applied."""
-        if not state.get("patch_successful"):
-            logger.warning("Skipping restart because code patching failed or was skipped.")
-            return {"restart_successful": False}
-            
-        logger.info("🔌 Step 5: Routing to Container Restarter for deployment...")
-        restarter = ContainerRestarter()
-        success = restarter.rebuild_and_restart(
-            container_name=state["container_name"],
-            project_path=state["project_path"]
-        )
-        return {"restart_successful": success}
-
-    def run_analysis(self, project_path: str, container_name: str, crash_logs: str) -> str:
+    def run_analysis(self, project_path: str, container_name: str, crash_logs: str) -> int:
         logger.info("🚀 Starting Optic Analysis Pipeline...")
         ctx = ContextManager(project_path)
         tree = ctx.get_directory_tree()
@@ -119,19 +83,31 @@ class CrashAnalyzer:
             "directory_tree": tree,
             "target_files": [],
             "file_contents": "",
-            "final_analysis": "",
-            "patch_successful": False,
-            "restart_successful": False
+            "final_analysis": ""
         }
         
+        # Run the AI Graph
         final_state = self.app.invoke(initial_state)
+        
+        # 🎯 NEW: Parse the AI's answer and save to Database instead of patching!
+        ai_output = final_state["final_analysis"]
+        
         try:
-            analysis_text = json.loads(final_state["final_analysis"]).get("analysis", final_state["final_analysis"])
-        except:
-            analysis_text = final_state["final_analysis"]
+            parsed_data = json.loads(ai_output)
+            diagnosis = parsed_data.get("analysis", "No diagnosis provided.")
+            patch = parsed_data.get("patches", [])
+        except json.JSONDecodeError:
+            diagnosis = ai_output
+            patch = []
             
-        return (
-            f"{analysis_text}\n\n"
-            f"🔹 Patch Successful: {final_state['patch_successful']}\n"
-            f"🔹 Container Revived: {final_state['restart_successful']}"
+        logger.info("🗄️ Step 4: Saving proposed fix to Database for human review...")
+        
+        incident_id = create_incident(
+            container_name=container_name,
+            crash_logs=crash_logs,
+            ai_diagnosis=diagnosis,
+            proposed_patch=patch
         )
+        
+        logger.info(f"✅ Analysis complete! Ticket #{incident_id} is waiting in the Dashboard.")
+        return incident_id # Return the ticket number back to the Watcher
