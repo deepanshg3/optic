@@ -250,3 +250,146 @@ The container crash is caused by a typo in the 'start' script within 'package.js
 2026-06-19 17:10:11,935 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
 2026-06-19 17:10:11,935 - INFO - [Watcher] - Listening for container crashes...
 2026-06-19 17:10:14,581 - INFO - [Main] - 👋 Optic Core gracefully shutting down.
+2026-06-21 18:20:51,474 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 18:20:51,488 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 18:20:51,488 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 18:20:53,491 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 18:20:53,568 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 18:20:53,568 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 18:20:53,568 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 18:20:53,568 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 18:21:23,890 - INFO - [Database] - 📝 Incident #1 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 18:24:01,959 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 18:24:01,959 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 18:30:54,631 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 18:30:54,632 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 18:30:54,632 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 18:30:56,634 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 18:30:56,696 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 18:30:56,696 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 18:30:56,696 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 18:30:56,696 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 18:32:55,702 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 18:32:55,702 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 18:33:53,065 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 18:33:53,065 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 18:33:53,065 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 18:33:55,068 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 18:33:55,132 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 18:33:55,132 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 18:33:55,132 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 18:33:55,132 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 18:34:02,531 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 18:34:03,607 - INFO - [Database] - 📝 Incident #2 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 18:34:15,629 - ERROR - [Patcher] - ❌ Invalid patch format: missing file_path or search_block.
+2026-06-21 18:34:15,652 - INFO - [Database] - 🔄 Incident #2 status updated to: RESOLVED_PROCEED
+2026-06-21 18:36:00,720 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 18:36:00,720 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 18:38:22,533 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 18:38:22,534 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 18:38:22,534 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 18:38:24,536 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 18:38:24,597 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 18:38:24,597 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 18:38:24,597 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 18:38:24,597 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 18:40:56,859 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 18:40:56,859 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 18:46:26,134 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 18:46:26,156 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 18:46:26,157 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 18:46:28,163 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 18:46:28,228 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 18:46:28,228 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 18:46:28,228 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 18:46:28,228 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 18:46:31,040 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 18:46:32,977 - INFO - [Database] - 📝 Incident #1 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 18:46:40,138 - INFO - [Database] - 🔄 Incident #1 status updated to: RESOLVED_PROCEED
+2026-06-21 19:18:47,244 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 19:18:47,244 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 20:17:44,368 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 20:17:44,368 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 20:17:44,368 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 20:17:46,371 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 20:17:46,432 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 20:17:46,432 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 20:17:46,432 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 20:17:46,432 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 20:18:15,736 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 20:18:17,775 - INFO - [Database] - 📝 Incident #2 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 20:18:41,779 - INFO - [Patcher] - ✨ Full file rewrite executed on: test_data.json
+2026-06-21 20:18:41,802 - INFO - [Database] - 🔄 Incident #2 status updated to: RESOLVED_PROCEED
+2026-06-21 20:50:54,893 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 20:50:54,894 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 20:51:01,122 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 20:51:01,123 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 20:51:01,123 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 20:51:03,125 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 20:51:03,184 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 20:51:03,184 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 20:51:03,184 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 20:51:03,184 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 20:51:12,196 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 20:51:14,106 - INFO - [Database] - 📝 Incident #3 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 20:51:50,708 - INFO - [Patcher] - ✅ Successfully patched: test_data.json
+2026-06-21 20:51:50,708 - INFO - [Patcher] - ✅ Successfully patched: test_python.py
+2026-06-21 20:51:50,708 - ERROR - [Patcher] - ❌ Search block mismatch in test_ui.html. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:58,741 - ERROR - [Patcher] - ❌ Search block mismatch in test_data.json. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:58,742 - INFO - [Patcher] - ✅ Successfully patched: test_python.py
+2026-06-21 20:51:58,742 - ERROR - [Patcher] - ❌ Search block mismatch in test_ui.html. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:59,287 - ERROR - [Patcher] - ❌ Search block mismatch in test_data.json. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:59,288 - INFO - [Patcher] - ✅ Successfully patched: test_python.py
+2026-06-21 20:51:59,288 - ERROR - [Patcher] - ❌ Search block mismatch in test_ui.html. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:59,495 - ERROR - [Patcher] - ❌ Search block mismatch in test_data.json. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:59,496 - INFO - [Patcher] - ✅ Successfully patched: test_python.py
+2026-06-21 20:51:59,496 - ERROR - [Patcher] - ❌ Search block mismatch in test_ui.html. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:59,647 - ERROR - [Patcher] - ❌ Search block mismatch in test_data.json. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:51:59,648 - INFO - [Patcher] - ✅ Successfully patched: test_python.py
+2026-06-21 20:51:59,648 - ERROR - [Patcher] - ❌ Search block mismatch in test_ui.html. The AI likely hallucinated indentation or spacing.
+2026-06-21 20:54:18,577 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 20:54:18,577 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 23:05:30,750 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 23:05:30,751 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 23:05:30,751 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 23:05:32,753 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 23:05:32,832 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 23:05:32,832 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 23:05:32,832 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 23:05:32,832 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 23:05:41,091 - INFO - [Database] - 🔄 Incident #3 status updated to: REJECTED
+2026-06-21 23:05:52,091 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 23:05:53,450 - INFO - [Database] - 📝 Incident #4 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 23:06:09,705 - INFO - [Patcher] - ✅ Successfully patched: test_data.json
+2026-06-21 23:06:09,705 - INFO - [Patcher] - ✅ Successfully patched: test_python.py
+2026-06-21 23:06:09,705 - ERROR - [Patcher] - ❌ Search block mismatch in test_ui.html. The AI likely hallucinated indentation or spacing.
+2026-06-21 23:08:15,923 - INFO - [Database] - 🔄 Incident #4 status updated to: REJECTED
+2026-06-21 23:08:22,800 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 23:08:22,801 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...
+2026-06-21 23:10:50,368 - INFO - [Main] - 🚀 Booting Optic Core from Modular Layout...
+2026-06-21 23:10:50,368 - INFO - [Database] - 🗄️ Database initialized successfully.
+2026-06-21 23:10:50,376 - INFO - [Main] - 🌐 Spinning up Streamlit Control Center...
+2026-06-21 23:10:52,379 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 23:10:52,440 - INFO - [Watcher] - 👁️ Optic Watcher initialized. Connected to Docker engine.
+2026-06-21 23:10:52,440 - INFO - [Watcher] - Targeting Project Directory: /home/deepanshgupta/Desktop/tic-tac-toe-main
+2026-06-21 23:10:52,440 - INFO - [Watcher] - Targeting Container Name: tictactoe-casualty
+2026-06-21 23:10:52,440 - INFO - [Watcher] - Listening for container crashes...
+2026-06-21 23:11:03,459 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 23:11:04,905 - INFO - [Database] - 📝 Incident #5 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 23:11:14,827 - ERROR - [Patcher] - ❌ Search block mismatch in test_ui.html. The AI likely hallucinated indentation or spacing.
+2026-06-21 23:11:38,820 - INFO - [Database] - 🔄 Incident #5 status updated to: REJECTED
+2026-06-21 23:12:06,016 - INFO - [LLMClient] - 🧠 Booting LLM Engine: gemini-3.1-flash-lite
+2026-06-21 23:12:19,799 - INFO - [Database] - 📝 Incident #6 [BUILD_LINTER] logged. Status: PENDING.
+2026-06-21 23:12:24,282 - INFO - [Patcher] - ✅ Successfully patched: test_ui.html
+2026-06-21 23:12:24,299 - INFO - [Database] - 🔄 Incident #6 status updated to: RESOLVED_PROCEED
+2026-06-21 23:14:35,981 - INFO - [Main] - 
+👋 Optic Core gracefully shutting down.
+2026-06-21 23:14:35,981 - INFO - [Main] - 🛑 Terminating Streamlit Dashboard...

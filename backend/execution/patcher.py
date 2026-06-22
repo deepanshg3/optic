@@ -5,11 +5,15 @@ logger = setup_logger("Patcher")
 
 class CodePatcher:
     def __init__(self, project_path: str):
-        self.project_path = project_path
+        """
+        Initializes the execution patcher with the target repository root path.
+        """
+        self.project_path = os.path.expanduser(project_path)
 
     def apply_patches(self, patches: list) -> bool:
         """
-        Takes a list of patch JSON objects and safely applies them to the local files.
+        Universal Mode: Takes a list of patch JSON objects and safely applies substring blocks.
+        Used by both the Linter (Build-Time) and the Sentry (Run-Time).
         Returns True if all patches succeed, False if any fail.
         """
         all_success = True
@@ -44,8 +48,8 @@ class CodePatcher:
                     all_success = False
                     continue
 
-                # 3. Apply the patch
-                new_content = content.replace(search_block, replace_block)
+                # 3. Apply the patch (replace only the first instance to be safe)
+                new_content = content.replace(search_block, replace_block, 1)
 
                 # 4. Write it back to the drive
                 with open(full_path, 'w', encoding='utf-8') as f:

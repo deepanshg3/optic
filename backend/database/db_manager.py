@@ -22,11 +22,12 @@ def init_db():
     conn = get_connection()
     cursor = conn.cursor()
     
-    # The blueprint for our ledger
+    # 🚨 ARCHITECTURE UPGRADE: Added incident_type to the schema
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS incidents (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             container_name TEXT NOT NULL,
+            incident_type TEXT NOT NULL, -- NEW: 'BUILD_LINTER' or 'RUNTIME_SENTRY'
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             crash_logs TEXT NOT NULL,
             ai_diagnosis TEXT NOT NULL,
@@ -38,7 +39,7 @@ def init_db():
     conn.close()
     logger.info("🗄️ Database initialized successfully.")
 
-def create_incident(container_name, crash_logs, ai_diagnosis, proposed_patch):
+def create_incident(container_name, incident_type, crash_logs, ai_diagnosis, proposed_patch):
     """The Detective (AI) uses this to drop a new report for human review."""
     conn = get_connection()
     cursor = conn.cursor()
@@ -48,15 +49,15 @@ def create_incident(container_name, crash_logs, ai_diagnosis, proposed_patch):
         proposed_patch = json.dumps(proposed_patch)
         
     cursor.execute('''
-        INSERT INTO incidents (container_name, crash_logs, ai_diagnosis, proposed_patch, status)
-        VALUES (?, ?, ?, ?, 'PENDING')
-    ''', (container_name, crash_logs, ai_diagnosis, proposed_patch))
+        INSERT INTO incidents (container_name, incident_type, crash_logs, ai_diagnosis, proposed_patch, status)
+        VALUES (?, ?, ?, ?, ?, 'PENDING')
+    ''', (container_name, incident_type, crash_logs, ai_diagnosis, proposed_patch))
     
     incident_id = cursor.lastrowid
     conn.commit()
     conn.close()
     
-    logger.info(f"📝 Incident #{incident_id} logged for [{container_name}]. Status: PENDING.")
+    logger.info(f"📝 Incident #{incident_id} [{incident_type}] logged. Status: PENDING.")
     return incident_id
 
 def get_pending_incidents():
