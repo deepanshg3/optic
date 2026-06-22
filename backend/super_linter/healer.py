@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from backend.agents.llm_api import OpticLLM
 
-# 🚨 The Cloud-Strict Prompt (Using the Line-Number bypass we perfected!)
+# 🚨 The Cloud-Strict Prompt
 UNIVERSAL_CLOUD_PROMPT = """You are an elite Polyglot Site Reliability Engineer operating in a headless CI/CD cloud environment.
 You are fixing syntax errors caught by GitHub Super Linter.
 
@@ -23,9 +23,10 @@ The JSON must exactly match this schema:
 ]
 
 PATCHING RULES:
-1. `start_line` and `end_line` are the EXACT integer line numbers from the provided snippet that contain the error.
+1. `start_line` and `end_line` are the EXACT integer line numbers from the provided code that contain the error.
 2. If the error is on a single line, start_line and end_line will be the SAME number.
 3. Your `replace_block` must contain the FULL FIXED CODE for those specific lines, keeping original indentation.
+4. Do NOT include line numbers in your replace_block output. Just the raw valid code.
 """
 
 class CloudHealer:
@@ -37,8 +38,8 @@ class CloudHealer:
         self.workspace_root = workspace_root
         self.llm = OpticLLM()
         
-    def get_numbered_snippet(self, file_path, target_line, up=10, down=5):
-        """Extracts the broken code directly from the Tic-Tac-Toe repository."""
+    def get_numbered_file(self, file_path):
+        """Extracts the FULL broken code file directly from the repository with line numbers."""
         full_path = os.path.join(self.workspace_root, file_path)
         
         if not os.path.exists(full_path):
@@ -48,15 +49,12 @@ class CloudHealer:
         with open(full_path, 'r', encoding='utf-8') as f:
             lines = f.read().split('\n')
             
-        start = max(0, target_line - 1 - up)
-        end = min(len(lines), target_line + down)
-        
-        snippet = []
-        for i in range(start, end):
+        numbered_lines = []
+        for i, line in enumerate(lines):
             # i+1 because humans and linters read Line 1, not Line 0
-            snippet.append(f"{i+1} | {lines[i]}")
+            numbered_lines.append(f"{i+1} | {line}")
             
-        return '\n'.join(snippet), lines
+        return '\n'.join(numbered_lines), lines
         
     def heal_files(self, parsed_errors):
         """Takes the errors from parser.py, asks Gemini, and overwrites the files."""
@@ -64,7 +62,7 @@ class CloudHealer:
             print("✅ No errors to heal. Optic Bot is sleeping...")
             return True
             
-        print(f"🧠 Waking up Cloud Optic LLM to heal {len(parsed_errors)} errors...")
+        print(f"🧠 Waking up Cloud Optic LLM to heal {len(parsed_errors)} broken files...")
         
         # 1. Build the Mega-Context for the LLM
         batched_context = ""
@@ -73,18 +71,23 @@ class CloudHealer:
         for error in parsed_errors:
             filepath = error['file_path']
             
-            # The Super Linter often spits out absolute paths like /github/workspace/test_ui.html
-            # We strip the workspace root so it's a clean relative path (test_ui.html)
-            clean_path = filepath.replace(self.workspace_root + "/", "")
+            # Strip the workspace root so it's a clean relative path (e.g. test_ui.html)
+            clean_path = filepath.replace(self.workspace_root + "/", "").strip("/")
             
-            snippet, original_lines = self.get_numbered_snippet(clean_path, error['line'])
+            # Read the whole file (if we haven't already for a previous error)
+            if clean_path not in file_cache:
+                numbered_code, original_lines = self.get_numbered_file(clean_path)
+                if numbered_code:
+                    file_cache[clean_path] = original_lines
+                    batched_context += f"\n==================\nFile: {clean_path}\n"
+                    batched_context += f"Full Source Code:\n{numbered_code}\n\n"
             
-            if snippet:
-                file_cache[clean_path] = original_lines
-                batched_context += f"File: {clean_path}\nError Rule: {error['error_rule']}\nMessage: {error['error_msg']}\nSnippet:\n{snippet}\n\n"
+            # Append the exact linter error block below the file context
+            batched_context += f"Linter Error Report for {clean_path}:\n{error['error_msg']}\n"
 
         # 2. Call Gemini for the Mega-Patch
         user_prompt = f"Please fix the following files based on their Super Linter error logs:\n\n{batched_context}"
+        print("🤖 Sending full file context to Gemini...")
         raw_response = self.llm.analyze(user_prompt=user_prompt, system_prompt=UNIVERSAL_CLOUD_PROMPT)
         
         try:
@@ -96,6 +99,10 @@ class CloudHealer:
 
         # 3. Apply the Patches directly to the Hard Drive
         print("💉 Applying AI patches to the cloud workspace...")
+        
+        # Sort patches from bottom to top so line numbers don't shift while applying
+        mega_patch.sort(key=lambda x: x.get("start_line", 0), reverse=True)
+        
         for patch in mega_patch:
             filepath = patch.get("file_path")
             start = patch.get("start_line")
@@ -105,13 +112,14 @@ class CloudHealer:
             if filepath in file_cache and start and end:
                 lines = file_cache[filepath]
                 
-                # Math check: Arrays are 0-indexed. 
-                # If error is line 12 to 12, we want to replace lines[11:12]
                 prefix = lines[:start-1]
                 suffix = lines[end:]
                 
                 # Rebuild the entire file with the AI's new code injected in the middle
                 new_file_content = '\n'.join(prefix + [new_code] + suffix)
+                
+                # Update our cache with the newly injected code in case there are multiple patches for this file
+                file_cache[filepath] = new_file_content.split('\n')
                 
                 # Overwrite the actual file on the server
                 full_path = os.path.join(self.workspace_root, filepath)
