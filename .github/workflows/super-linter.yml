@@ -1,0 +1,31 @@
+name: Super Linter (The Cloud Alarm)
+
+# 1. THE TRIGGER: Wakes up every time you push code or open a PR
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 2. THE CHECKOUT: Downloads your version2 code onto the Microsoft server
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetches all history for all branches and tags
+
+      # 3. THE INSPECTOR: Runs the massive 4GB Super Linter Docker container
+      - name: Run GitHub Super Linter
+        uses: github/super-linter@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # We can turn off linters we don't need to speed it up
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_PYTHON_AST: true
+          VALIDATE_JSON: true
+          VALIDATE_HTML: true
