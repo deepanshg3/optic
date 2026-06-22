@@ -20,7 +20,7 @@ def main():
     log_file_path = os.path.join(workspace_root, "super-linter.report.json")
 
     # Safety Check: The brain needs power
-    if not os.getenv("GEMINI_API_KEY"):
+    if not os.getenv("GOOGLE_API_KEY"):
         print("❌ CRITICAL: GEMINI_API_KEY is missing from environment secrets!")
         sys.exit(1)
 
