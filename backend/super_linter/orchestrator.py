@@ -16,10 +16,9 @@ def main():
         print("❌ ERROR: GITHUB_WORKSPACE environment variable not found. Are we in the cloud?")
         sys.exit(1)
 
-    # We will tell Super Linter to save its JSON report to this exact path
-    log_file_path = os.path.join(workspace_root, "super-linter.report.json")
+    # We will tell Super Linter to save its TEXT report to this exact path
+    log_file_path = os.path.join(workspace_root, "super-linter.log")
 
-    # Safety Check: The brain needs power
     # Safety Check: The brain needs power
     if not os.getenv("GOOGLE_API_KEY"):
         print("❌ CRITICAL: GOOGLE_API_KEY is missing from environment secrets!")
