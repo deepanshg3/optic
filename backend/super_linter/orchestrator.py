@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil  # <-- 🚨 ADDED FOR CLEANUP
 
 # Import our three specialized cloud modules
 from parser import SuperLinterParser
@@ -47,6 +48,21 @@ def main():
     if not heal_success:
         print("❌ AI Healer encountered a fatal error during patching. Aborting pipeline.")
         sys.exit(1)
+
+    # === 🚨 NEW JANITOR CLEANUP BLOCK 🚨 ===
+    print("\n🧹 Cleaning up workspace before commit...")
+    
+    # 1. Delete the log file so GitHub Push Protection doesn't block the token
+    if os.path.exists(log_file_path):
+        os.remove(log_file_path)
+        print("   -> Deleted super-linter.log")
+        
+    # 2. Delete the cloned brain so it doesn't pollute the Tic-Tac-Toe repo
+    optic_brain_path = os.path.join(workspace_root, "optic_brain")
+    if os.path.exists(optic_brain_path):
+        shutil.rmtree(optic_brain_path)
+        print("   -> Deleted optic_brain folder")
+    # =======================================
 
     # Phase 3: Deliver the Pull Request
     print("\n🚚 Phase 3: Delivering the Pull Request...")
