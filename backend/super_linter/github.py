@@ -31,27 +31,50 @@ class GitHubDeliveryDriver:
         success, output = self.run_cmd("git status --porcelain")
         return bool(output) # Returns True if there are modified files
 
-    def deliver_patch(self):
-        """Creates a branch, commits the fixes, and opens a PR."""
+    def deliver_patch(self, mode="linter"):
+        """Creates a branch, commits the fixes, and opens a PR based on the crash mode."""
         if not self.has_changes():
             print("✅ No files were changed by the LLM. Aborting PR delivery.")
             return False
 
-        print("📦 Packaging AI fixes for delivery...")
+        print(f"📦 Packaging AI {mode.upper()} fixes for delivery...")
 
-        # 1. Configure the Cloud Git User (So GitHub knows who is committing)
+        # 1. Configure the Cloud Git User
         self.run_cmd('git config --global user.name "Optic Bot 🤖"')
         self.run_cmd('git config --global user.email "optic-bot@github.actions"')
 
-        # 2. Create a unique branch name using the current timestamp
-        branch_name = f"optic-auto-fix-{int(time.time())}"
+        # === 🚨 DYNAMIC BREADCRUMB ROUTER 🚨 ===
+        timestamp = int(time.time())
         
+        if mode == "docker":
+            branch_name = f"optic-docker-fix-{timestamp}"
+            commit_msg = "🐳 Optic Auto-Healer: Fixed Docker Runtime Crash"
+            pr_title = "🐳 Optic Bot: Docker Runtime Crash Fix"
+            pr_body = (
+                "### 🚨 Docker Container Crash Intercepted\n"
+                "The Optic Auto-Healer detected a crash during the 10-second Docker test drive. "
+                "Gemini AI has analyzed the container logs and generated this patch.\n\n"
+                "**Merging this PR will automatically trigger a new Docker test drive to verify the fix.**"
+            )
+        else:
+            branch_name = f"optic-linter-fix-{timestamp}"
+            commit_msg = "🤖 Optic Auto-Healer: Fixed Super Linter Syntax Errors"
+            pr_title = "🤖 Optic Bot: Code Quality Fixes"
+            pr_body = (
+                "### 🚨 Super Linter Intercepted Errors\n"
+                "Optic Bot caught structural or syntax errors during your recent push. "
+                "Gemini AI has analyzed the logs and generated this patch.\n\n"
+                "**Please review the file changes before merging.**"
+            )
+        # =======================================
+
+        # 2. Create the uniquely named branch
         print(f"🌿 Creating new branch: {branch_name}")
         self.run_cmd(f"git checkout -b {branch_name}")
 
         # 3. Add and Commit the fixed files
         self.run_cmd("git add .")
-        self.run_cmd('git commit -m "🤖 Optic Auto-Healer: Fixed Super Linter Syntax Errors"')
+        self.run_cmd(f'git commit -m "{commit_msg}"')
 
         # 4. Push the branch to the cloud repository
         print("🚀 Pushing branch to origin...")
@@ -61,17 +84,8 @@ class GitHubDeliveryDriver:
             print("❌ Failed to push branch. Check token permissions.")
             return False
 
-        # 5. Open the Pull Request using the pre-installed GitHub CLI
+        # 5. Open the Pull Request
         print("📝 Opening Pull Request...")
-        pr_title = "🤖 Optic Bot: Code Quality Fixes"
-        pr_body = (
-            "### 🚨 Super Linter Intercepted Errors\n"
-            "Optic Bot caught structural or syntax errors during your recent push. "
-            "Gemini AI has analyzed the logs and generated this patch.\n\n"
-            "**Please review the file changes before merging.**"
-        )
-        
-        # The 'gh' CLI uses the GITHUB_TOKEN automatically from the environment
         pr_command = f'gh pr create --title "{pr_title}" --body "{pr_body}" --base main --head {branch_name}'
         pr_success, pr_output = self.run_cmd(pr_command)
 

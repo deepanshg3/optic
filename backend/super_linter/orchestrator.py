@@ -1,6 +1,6 @@
 import os
 import sys
-import shutil  # <-- 🚨 ADDED FOR CLEANUP
+import shutil
 
 # Import our three specialized cloud modules
 from parser import SuperLinterParser
@@ -11,14 +11,10 @@ def main():
     print("🚀 Booting up Optic Cloud Orchestrator...")
 
     # 1. Gather Cloud Environment Variables
-    # GitHub Actions automatically injects 'GITHUB_WORKSPACE' (the path to the repo)
     workspace_root = os.getenv("GITHUB_WORKSPACE")
     if not workspace_root:
         print("❌ ERROR: GITHUB_WORKSPACE environment variable not found. Are we in the cloud?")
         sys.exit(1)
-
-    # We will tell Super Linter to save its TEXT report to this exact path
-    log_file_path = os.path.join(workspace_root, "super-linter.log")
 
     # Safety Check: The brain needs power
     if not os.getenv("GOOGLE_API_KEY"):
@@ -29,15 +25,38 @@ def main():
         print("❌ CRITICAL: GEMINI_MODEL_NAME is missing from environment secrets!")
         sys.exit(1)
 
+    # === DYNAMIC LOG DETECTION ENGINE ===
+    # Define our two target log paths
+    docker_log_path = os.path.join(workspace_root, "docker-crash.log")
+    linter_log_path = os.path.join(workspace_root, "super-linter.log")
+    
+    log_file_path = None
+    pipeline_mode = None
+
+    # Check for Docker crash logs FIRST (State-Aware Priority)
+    if os.path.exists(docker_log_path):
+        log_file_path = docker_log_path
+        pipeline_mode = "docker"
+        print("🐳 STATE DETECTED: Running in LIVE DOCKER CONTAINER HEALING mode.")
+    # Fallback to Super Linter logs if no Docker crash file exists
+    elif os.path.exists(linter_log_path):
+        log_file_path = linter_log_path
+        pipeline_mode = "linter"
+        print("📄 STATE DETECTED: Running in SUPER LINTER SYNTAX HEALING mode.")
+    else:
+        print("❌ ERROR: Neither super-linter.log nor docker-crash.log was found in the workspace!")
+        sys.exit(1)
+    # ====================================
+
     # --- THE EXECUTION PIPELINE ---
 
     # Phase 1: Parse the Logs
-    print("\n🔍 Phase 1: Parsing Super Linter Logs...")
+    print(f"\n🔍 Phase 1: Parsing {pipeline_mode.upper()} Logs...")
     parser = SuperLinterParser(log_file_path)
     parsed_errors = parser.parse_errors()
 
     if not parsed_errors:
-        print("✅ No critical errors found in the parsed logs. Optic Bot going back to sleep.")
+        print(f"✅ No critical errors found in the parsed {pipeline_mode} logs. Optic Bot going back to sleep.")
         sys.exit(0)
 
     # Phase 2: Heal the Code
@@ -49,13 +68,13 @@ def main():
         print("❌ AI Healer encountered a fatal error during patching. Aborting pipeline.")
         sys.exit(1)
 
-    # === 🚨 NEW JANITOR CLEANUP BLOCK 🚨 ===
+    # === 🚨 EXTENDED JANITOR CLEANUP BLOCK 🚨 ===
     print("\n🧹 Cleaning up workspace before commit...")
     
-    # 1. Delete the log file so GitHub Push Protection doesn't block the token
+    # 1. Clean up whichever log file triggered this workflow
     if os.path.exists(log_file_path):
         os.remove(log_file_path)
-        print("   -> Deleted super-linter.log")
+        print(f"   -> Deleted active tracking log: {os.path.basename(log_file_path)}")
         
     # 2. Delete the cloned brain so it doesn't pollute the Tic-Tac-Toe repo
     optic_brain_path = os.path.join(workspace_root, "optic_brain")
@@ -66,11 +85,12 @@ def main():
 
     # Phase 3: Deliver the Pull Request
     print("\n🚚 Phase 3: Delivering the Pull Request...")
+    # Pass the mode into the driver so it knows which breadcrumb to drop!
     driver = GitHubDeliveryDriver(workspace_root)
-    delivery_success = driver.deliver_patch()
+    delivery_success = driver.deliver_patch(mode=pipeline_mode)
 
     if delivery_success:
-        print("\n🎉 SUCCESS: Optic Bot has successfully analyzed, patched, and submitted the fix!")
+        print(f"\n🎉 SUCCESS: Optic Bot has successfully fixed your {pipeline_mode} issues!")
     else:
         print("\n⚠️ Pipeline finished, but delivery phase aborted (no changes detected or push failed).")
 
