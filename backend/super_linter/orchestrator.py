@@ -58,8 +58,23 @@ def main():
 
     # Phase 1: Parse the Logs
     print(f"\n🔍 Phase 1: Parsing {pipeline_mode.upper()} Logs...")
-    parser = SuperLinterParser(log_file_path)
-    parsed_errors = parser.parse_errors()
+    
+    if pipeline_mode == "sentry":
+        # Sentry sends raw text, not Linter syntax. Bypass the parser and read it directly!
+        with open(log_file_path, "r") as f:
+            raw_error = f.read().strip()
+            
+        if raw_error:
+            # Wrap it in a list so it matches what the CloudHealer expects
+            parsed_errors = [raw_error]
+            print(f"✅ Sentry Error Extracted: {raw_error}")
+        else:
+            parsed_errors = []
+            print("⚠️ Sentry log file was empty.")
+    else:
+        # Docker and Linter logs still use the strict SuperLinter parser
+        parser = SuperLinterParser(log_file_path)
+        parsed_errors = parser.parse_errors()
 
     if not parsed_errors:
         print(f"✅ No critical errors found in the parsed {pipeline_mode} logs. Optic Bot going back to sleep.")
