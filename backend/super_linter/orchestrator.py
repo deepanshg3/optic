@@ -65,9 +65,13 @@ def main():
             raw_error = f.read().strip()
             
         if raw_error:
-            # Wrap it in a list so it matches what the CloudHealer expects
-            parsed_errors = [raw_error]
-            print(f"✅ Sentry Error Extracted: {raw_error}")
+            # 🚨 THE FIX: Disguise the Sentry string as a structured Linter dictionary
+            parsed_errors = [{
+                "file_path": "src/App.js", # <--- ⚠️ CHANGE THIS to the actual file where your crash button lives! (e.g., App.js, script.js, index.html)
+                "error_message": f"SENTRY PRODUCTION CRASH: {raw_error}",
+                "line": "UNKNOWN"
+            }]
+            print(f"✅ Sentry Error Extracted and Packaged: {raw_error}")
         else:
             parsed_errors = []
             print("⚠️ Sentry log file was empty.")
