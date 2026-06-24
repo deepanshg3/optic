@@ -26,25 +26,31 @@ def main():
         sys.exit(1)
 
     # === DYNAMIC LOG DETECTION ENGINE ===
-    # Define our two target log paths
+    # Define our three target log paths
+    sentry_log_path = os.path.join(workspace_root, "sentry-alert.log")
     docker_log_path = os.path.join(workspace_root, "docker-crash.log")
     linter_log_path = os.path.join(workspace_root, "super-linter.log")
     
     log_file_path = None
     pipeline_mode = None
 
-    # Check for Docker crash logs FIRST (State-Aware Priority)
-    if os.path.exists(docker_log_path):
+    # Check for Sentry Production Alerts FIRST (Highest Priority)
+    if os.path.exists(sentry_log_path):
+        log_file_path = sentry_log_path
+        pipeline_mode = "sentry"
+        print("🚨 STATE DETECTED: Running in LIVE SENTRY PRODUCTION HEALING mode.")
+    # Check for Docker crash logs next
+    elif os.path.exists(docker_log_path):
         log_file_path = docker_log_path
         pipeline_mode = "docker"
         print("🐳 STATE DETECTED: Running in LIVE DOCKER CONTAINER HEALING mode.")
-    # Fallback to Super Linter logs if no Docker crash file exists
+    # Fallback to Super Linter logs
     elif os.path.exists(linter_log_path):
         log_file_path = linter_log_path
         pipeline_mode = "linter"
         print("📄 STATE DETECTED: Running in SUPER LINTER SYNTAX HEALING mode.")
     else:
-        print("❌ ERROR: Neither super-linter.log nor docker-crash.log was found in the workspace!")
+        print("❌ ERROR: Neither sentry-alert.log, docker-crash.log, nor super-linter.log was found in the workspace!")
         sys.exit(1)
     # ====================================
 
