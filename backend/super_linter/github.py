@@ -46,12 +46,23 @@ class GitHubDeliveryDriver:
         # === 🚨 DYNAMIC BREADCRUMB ROUTER 🚨 ===
         timestamp = int(time.time())
         
-        if mode == "docker":
+        if mode == "sentry":
+            branch_name = f"optic-sentry-fix-{timestamp}"
+            commit_msg = "🚨 Optic Auto-Healer: Fixed Live Sentry Production Crash"
+            pr_title = "🚨 Optic Bot: Sentry Production Bug Fix"
+            pr_body = (
+                "### 🚨 Live Production Crash Intercepted\n"
+                "The autonomous SRE agent detected a live runtime crash via Sentry webhook.\n"
+                "Gemini AI successfully mapped the repository, isolated the undocumented point of failure, "
+                "and applied this surgical patch.\n\n"
+                "**Trigger Source:** `Sentry Live Alert`"
+            )
+        elif mode == "docker":
             branch_name = f"optic-docker-fix-{timestamp}"
             commit_msg = "🐳 Optic Auto-Healer: Fixed Docker Runtime Crash"
             pr_title = "🐳 Optic Bot: Docker Runtime Crash Fix"
             pr_body = (
-                "### 🚨 Docker Container Crash Intercepted\n"
+                "### 🐳 Docker Container Crash Intercepted\n"
                 "The Optic Auto-Healer detected a crash during the 10-second Docker test drive. "
                 "Gemini AI has analyzed the container logs and generated this patch.\n\n"
                 "**Merging this PR will automatically trigger a new Docker test drive to verify the fix.**"
@@ -61,7 +72,7 @@ class GitHubDeliveryDriver:
             commit_msg = "🤖 Optic Auto-Healer: Fixed Super Linter Syntax Errors"
             pr_title = "🤖 Optic Bot: Code Quality Fixes"
             pr_body = (
-                "### 🚨 Super Linter Intercepted Errors\n"
+                "### 📄 Super Linter Intercepted Errors\n"
                 "Optic Bot caught structural or syntax errors during your recent push. "
                 "Gemini AI has analyzed the logs and generated this patch.\n\n"
                 "**Please review the file changes before merging.**"
