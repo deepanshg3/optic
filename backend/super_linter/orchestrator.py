@@ -67,7 +67,7 @@ def main():
         if raw_error:
             # 🚨 THE FIX: Match the exact keys expected by healer.py
             parsed_errors = [{
-                "file_path": "src/App.js", # ⚠️ STOP! Read the note below!
+                "file_path": "UNKNOWN", # ⚠️ STOP! Read the note below!
                 "error_msg": f"SENTRY PRODUCTION CRASH: {raw_error}",
                 "line": "UNKNOWN"
             }]

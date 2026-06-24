@@ -3,7 +3,8 @@ from pathlib import Path
 from typing import List
 
 # Aggressive filtering to keep the AI prompt small and lightning fast
-IGNORE_DIRS = {'.git', 'node_modules', '.venv', '__pycache__', 'build', 'dist', '.vscode', '.idea'}
+# 🚨 ADDED 'optic_brain' HERE SO THE AI DOESN'T SCAN ITSELF!
+IGNORE_DIRS = {'.git', 'node_modules', '.venv', '__pycache__', 'build', 'dist', '.vscode', '.idea', 'optic_brain'}
 IGNORE_FILES = {'package-lock.json', 'yarn.lock', '.DS_Store'}
 IGNORE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.mp4', '.mp3', '.pdf', '.webp'}
 
