@@ -65,10 +65,10 @@ def main():
             raw_error = f.read().strip()
             
         if raw_error:
-            # 🚨 THE FIX: Disguise the Sentry string as a structured Linter dictionary
+            # 🚨 THE FIX: Match the exact keys expected by healer.py
             parsed_errors = [{
-                "file_path": "src/App.js", # <--- ⚠️ CHANGE THIS to the actual file where your crash button lives! (e.g., App.js, script.js, index.html)
-                "error_message": f"SENTRY PRODUCTION CRASH: {raw_error}",
+                "file_path": "src/App.js", # ⚠️ STOP! Read the note below!
+                "error_msg": f"SENTRY PRODUCTION CRASH: {raw_error}",
                 "line": "UNKNOWN"
             }]
             print(f"✅ Sentry Error Extracted and Packaged: {raw_error}")
